@@ -1,0 +1,11 @@
+# 环境变量（含真实 API Key，严禁提交）
+.env
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# 系统
+.DS_Store
