@@ -18,7 +18,8 @@
    单条异常/超时 → status='违规', is_fallback=True（fail-closed）。
 7. 离线降级：未配置 LLM_API_KEY 时自动进入纯本地模式（is_fallback=False），
    保证无网络/无 Key 环境下 python3 task_compliance.py 与 pytest 全绿。
-8. 安全：API Key 仅从环境变量读取，代码内无任何硬编码密钥。
+8. 安全：API Key 仅从环境变量读取（启动时经 python-dotenv 自动加载脚本同目录 .env，
+   不覆盖已存在的环境变量；.env 缺失则跳过），代码内无任何硬编码密钥。
 """
 from __future__ import annotations
 
@@ -32,9 +33,19 @@ import unicodedata
 from typing import List, Optional, Tuple
 
 import httpx
+from dotenv import load_dotenv
 from pydantic import BaseModel, Field, field_validator
 from pypinyin import Style, lazy_pinyin
 from pypinyin.constants import PINYIN_DICT
+
+# ---------------------------------------------------------------------------
+# .env 自动加载：在任何 os.environ 读取（含模块级 _auditor 实例化）之前执行
+# 仅加载脚本同目录下的 .env，文件缺失时静默跳过（离线 / CI 环境）；
+# override=False 保证 shell 中已 export 的真实环境变量优先，.env 不覆盖之
+# ---------------------------------------------------------------------------
+_DOTENV_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env")
+if os.path.isfile(_DOTENV_PATH):
+    load_dotenv(_DOTENV_PATH, override=False)
 
 # ---------------------------------------------------------------------------
 # 题面给定的测试话术

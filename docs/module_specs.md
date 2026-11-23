@@ -144,3 +144,5 @@
 
 ## 6. 环境变量契约（.env.example）
 `LLM_BASE_URL`、`LLM_API_KEY`、`LLM_MODEL`、`LLM_TIMEOUT`、`LLM_CONCURRENCY`。
+程序启动时由 python-dotenv 自动加载脚本同目录 `.env`（缺失则跳过），
+`override=False` 保证 shell 已 export 的同名变量优先；未配置 `LLM_API_KEY` 时自动离线降级。

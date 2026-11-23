@@ -97,7 +97,8 @@
 
 ## 6. 离线降级策略
 
-启动时检测 `LLM_API_KEY`：
+模块导入时先经 python-dotenv 自动加载脚本同目录 `.env`（不存在则跳过，且不覆盖已 export 的环境变量），
+再检测 `LLM_API_KEY`：
 - 有 Key：双通道（本地 + LLM）；
 - 无 Key：纯本地模式，`is_fallback=False`（这是有意降级而非运行时异常），保证面试官机器无 Key 时 `python3 task_compliance.py` 与 pytest 全绿。
 

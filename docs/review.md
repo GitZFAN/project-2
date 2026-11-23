@@ -82,8 +82,10 @@ project-2/
 
 ## 5. 剩余人工步骤（只能由本人完成）
 
-1. 真实 API 联调：`cp .env.example .env` 填入 Key 后
-   `export $(grep -v '^#' .env | xargs)` 即可启用双通道（DeepSeek/通义/Kimi 等 OpenAI 兼容端点均可）；
+1. 真实 API 联调：`cp .env.example .env` 填入 Key 后直接运行
+   `python3 task_compliance.py` 即可，程序启动时经 python-dotenv 自动加载 `.env`
+   （也可继续用 `export $(grep -v '^#' .env | xargs)` 注入，已 export 的变量优先级更高），
+   启用双通道（DeepSeek/通义/Kimi 等 OpenAI 兼容端点均可）；
 2. 按题目要求初始化 git 并推送到自己的 git 空间（涉及本人账号凭据）：
    `git init && git add . && git commit -m "feat: compliance audit engine" && git remote add origin <你的仓库> && git push -u origin main`；
 3. 附上 AI 编程对话记录（分享链接或导出 Markdown）。
